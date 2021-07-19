@@ -80,7 +80,7 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
 
     if max_offset > 0:
         
-        pagination_limit= int(float(max_offset) // 25)
+        #pagination_limit= int(float(max_offset) // 25)
         parameters = []
         parameter_dict = {}
         parameter_dict['session'] = session
@@ -91,7 +91,7 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
         parameter_dict['dateout'] = dateout
         parameter_dict['is_detail'] = is_detail
         
-        for i in range(pagination_limit):
+        for i in range(max_offset):
             temp_dict = copy.deepcopy(parameter_dict)
             temp_dict['offset'] = i*offset
             parameters.append(temp_dict)
