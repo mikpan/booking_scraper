@@ -3,7 +3,7 @@ import threading
 
 class ThreadScraper(threading.Thread):
 
-   process_result = []
+   
 
    def __init__(self, session, offset, people, country, city, datein, dateout, is_detail, parsing_data):
       threading.Thread.__init__(self)
@@ -16,6 +16,7 @@ class ThreadScraper(threading.Thread):
       self.dateout = dateout
       self.is_detail = is_detail
       self.parsing_data = parsing_data
+      self.process_result = []
 
    def run(self):
       self.process_result.append(self.parsing_data(self.session, self.people, self.country, self.city, self.datein, self.dateout, self.offset, self.is_detail))
