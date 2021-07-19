@@ -97,12 +97,12 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
         
         if is_verbose:
             print("[~] parameters: " + str(parameters))
-        res = []
+        hotels = []
         with multiprocessing.Pool(len(parameters)) as p:
-            res = p.map(parsing_data, parameters)
-        if res:
+            hotels = p.map(parsing_data, parameters)
+        if hotels:
             return [hotel for sublist in hotels for hotel in sublist]
-        return res
+        return hotels
     
     else:
         temp_dict = copy.deepcopy(parameter_dict)
