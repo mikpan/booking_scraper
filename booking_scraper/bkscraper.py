@@ -97,7 +97,10 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
             parameters.append(temp_dict)
             #offsets.append(i*offset)
         
-        with multiprocessing.Pool(5) as p:
+        if is_verbose:
+            print("[~] parameters: " + str(parameters))
+
+        with multiprocessing.Pool(len(parameters)) as p:
             return p.map(parsing_data, parameters)
             
         '''
@@ -120,6 +123,10 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
 
 
 def parsing_data(parameters_dict):
+    
+    if is_verbose:
+        print("[~] Received parameters: " + str(parameters_dict)
+
     
     session = parameters_dict['session']
     people = parameters_dict['people']
