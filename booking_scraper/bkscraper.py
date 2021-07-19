@@ -11,7 +11,7 @@ from .core import core
 today = datetime.datetime.now()
 tomorrow = today + datetime.timedelta(1)
 
-is_verbose = False
+is_verbose = True
 
 REQUEST_HEADER = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.75 Safari/537.36"}
 BOOKING_PREFIX = 'https://www.booking.com'
