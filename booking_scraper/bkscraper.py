@@ -47,9 +47,10 @@ def create_url(people, country, city, datein, dateout, offset):
 
 
 def process_data(people, country, city, datein, dateout, is_detail, limit):
-    offset = 0
+    offset = 25
     threads = []
     max_offset = 0
+    
 
     starting_url = create_url(people, country, city, datein, dateout, offset)
     # print(starting_url)
@@ -75,9 +76,10 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
         print("[~] Initializing Threads...")
 
     if max_offset > 0:
-        for i in range(int(max_offset)):
-            offset += 25
-            t = ThreadScraper(session, offset, people, country, city,
+        pagination_limit= int(float(max_offset) // 25)
+        for i in range(pagination_limit):
+        
+            t = ThreadScraper(session, offset*i, people, country, city,
                               datein, dateout, is_detail, parsing_data)
             threads.append(t)
         for t in threads:
@@ -85,7 +87,7 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
         for t in threads:
             t.join()
     else:
-        t = ThreadScraper(session, offset, people, country, city, datein, dateout, is_detail, parsing_data)
+        t = ThreadScraper(session, offset*0, people, country, city, datein, dateout, is_detail, parsing_data)
         threads.append(t)
         t.start()
         t.join()
