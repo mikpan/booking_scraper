@@ -155,6 +155,8 @@ def parsing_data(session, people, country, city, datein, dateout, offset, is_det
 
 
 def get_result(**kwargs):
+    
+    global is_verbose
     result = []
     today = datetime.datetime.now()
     tomorrow = today + datetime.timedelta(1)
@@ -166,6 +168,7 @@ def get_result(**kwargs):
     dateout = kwargs.get('dateout', tomorrow)
     is_detail = kwargs.get('detail', False)
     limit = kwargs.get('limit', -1)
+    is_verbose = kwargs.get('is_verbose',False)
 
     if city == None and country == None:
         raise Exception('set the \"city\" or \"country\" param at least')
