@@ -125,7 +125,7 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
 def parsing_data(parameters_dict):
     
     if is_verbose:
-        print("[~] Received parameters: " + str(parameters_dict)
+        print("[~] Received parameters: " + str(parameters_dict))
 
     
     session = parameters_dict['session']
