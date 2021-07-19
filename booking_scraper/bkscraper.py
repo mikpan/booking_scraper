@@ -6,6 +6,8 @@ import sys
 import json
 from .core.ThreadScraper import ThreadScraper
 from .core import core
+import multiprocessing
+import copy
 
 
 today = datetime.datetime.now()
@@ -77,8 +79,28 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
         print("[~] Initializing Threads...")
 
     if max_offset > 0:
+        
         pagination_limit= int(float(max_offset) // 25)
+        parameters = []
+        parameter_dict = {}
+        parameter_dict['session'] = session
+        parameter_dict['people'] = people
+        parameter_dict['country'] = country
+        parameter_dict['city'] = city
+        parameter_dict['datein'] = datein
+        parameter_dict['dateout'] = dateout
+        parameter_dict['is_detail'] = is_detail
+        
         for i in range(pagination_limit):
+            temp_dict = copy.deepcopy(parameter_dict)
+            temp_dict['offset'] = i*offset
+            parameters.append(temp_dict)
+            #offsets.append(i*offset)
+        
+        with multiprocessing.Pool(5) as p:
+            return p.map(parsing_data, parameters)
+            
+        '''
         
             t = ThreadScraper(session, offset*i, people, country, city,
                               datein, dateout, is_detail, parsing_data)
@@ -87,6 +109,7 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
             t.start()
         for t in threads:
             t.join()
+        '''
     else:
         t = ThreadScraper(session, offset*0, people, country, city, datein, dateout, is_detail, parsing_data)
         threads.append(t)
@@ -96,7 +119,16 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
     return ThreadScraper.process_result
 
 
-def parsing_data(session, people, country, city, datein, dateout, offset, is_detail):
+def parsing_data(parameters_dict):
+    
+    session = parameters_dict['session']
+    people = parameters_dict['people']
+    country = parameters_dict['country']
+    offset = parameters_dict['offset']
+    datein = parameters_dict['datein']
+    dateout = parameters_dict['dateout']
+    city = parameters_dict['city']
+    offset = parameters_dict['offset']
 
     result = []
     data_url = create_url(people, country, city, datein, dateout, offset)
