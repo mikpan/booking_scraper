@@ -77,20 +77,18 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
 
     if is_verbose:
         print("[~] Initializing Threads...")
-
+    
+    parameters = []
+    parameter_dict = {}
+    parameter_dict['session'] = session
+    parameter_dict['people'] = people
+    parameter_dict['country'] = country
+    parameter_dict['city'] = city
+    parameter_dict['datein'] = datein
+    parameter_dict['dateout'] = dateout
+    parameter_dict['is_detail'] = is_detail
+    
     if max_offset > 0:
-        
-        #pagination_limit= int(float(max_offset) // 25)
-        parameters = []
-        parameter_dict = {}
-        parameter_dict['session'] = session
-        parameter_dict['people'] = people
-        parameter_dict['country'] = country
-        parameter_dict['city'] = city
-        parameter_dict['datein'] = datein
-        parameter_dict['dateout'] = dateout
-        parameter_dict['is_detail'] = is_detail
-        
         for i in range(max_offset):
             temp_dict = copy.deepcopy(parameter_dict)
             temp_dict['offset'] = i*offset
@@ -99,43 +97,32 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
         
         if is_verbose:
             print("[~] parameters: " + str(parameters))
-
+        res = []
         with multiprocessing.Pool(len(parameters)) as p:
-            return p.map(parsing_data, parameters)
-            
-        '''
-        
-            t = ThreadScraper(session, offset*i, people, country, city,
-                              datein, dateout, is_detail, parsing_data)
-            threads.append(t)
-        for t in threads:
-            t.start()
-        for t in threads:
-            t.join()
-        '''
+            res = p.map(parsing_data, parameters)
+        if res:
+            return [hotel for sublist in hotels for hotel in sublist]
+        return res
+    
     else:
-        t = ThreadScraper(session, offset*0, people, country, city, datein, dateout, is_detail, parsing_data)
-        threads.append(t)
-        t.start()
-        t.join()
-
-    return ThreadScraper.process_result
-
-
-def parsing_data(parameters_dict):
+        temp_dict = copy.deepcopy(parameter_dict)
+        temp_dict['offset'] = 0
+        return parsing_data(temp_dict)
+        
+def parsing_data(parameter_dict):
     
     if is_verbose:
-        print("[~] Received parameters: " + str(parameters_dict))
+        print("[~] Received parameters: " + str(parameter_dict))
 
     
-    session = parameters_dict['session']
-    people = parameters_dict['people']
-    country = parameters_dict['country']
-    offset = parameters_dict['offset']
-    datein = parameters_dict['datein']
-    dateout = parameters_dict['dateout']
-    city = parameters_dict['city']
-    is_detail = parameters_dict['is_detail']
+    session = parameter_dict['session']
+    people = parameter_dict['people']
+    country = parameter_dict['country']
+    offset = parameter_dict['offset']
+    datein = parameter_dict['datein']
+    dateout = parameter_dict['dateout']
+    city = parameter_dict['city']
+    is_detail = parameter_dict['is_detail']
 
     result = []
     data_url = create_url(people, country, city, datein, dateout, offset)
