@@ -31,7 +31,6 @@ setuptools.setup(
         'requests',
         'lxml',
         'beautifulsoup4',
-        'multiprocessing'
     ],
     python_requires='>=3.6'
 )
