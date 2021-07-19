@@ -7,7 +7,7 @@ import json
 from .core.ThreadScraper import ThreadScraper
 from .core import core
 
-session = requests.Session()
+
 today = datetime.datetime.now()
 tomorrow = today + datetime.timedelta(1)
 
@@ -50,6 +50,7 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
     offset = 25
     threads = []
     max_offset = 0
+    session = requests.Session()
     
 
     starting_url = create_url(people, country, city, datein, dateout, offset)
