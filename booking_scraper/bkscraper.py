@@ -13,7 +13,7 @@ import copy
 today = datetime.datetime.now()
 tomorrow = today + datetime.timedelta(1)
 
-is_verbose = True
+is_verbose = False
 
 REQUEST_HEADER = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.75 Safari/537.36"}
 BOOKING_PREFIX = 'https://www.booking.com'
@@ -195,7 +195,7 @@ def parsing_data(parameters_dict):
 
 def get_result(**kwargs):
     
-    #global is_verbose
+    global is_verbose
     result = []
     today = datetime.datetime.now()
     tomorrow = today + datetime.timedelta(1)
@@ -207,7 +207,7 @@ def get_result(**kwargs):
     dateout = kwargs.get('dateout', tomorrow)
     is_detail = kwargs.get('detail', False)
     limit = kwargs.get('limit', -1)
-    #is_verbose = kwargs.get('is_verbose',False)
+    is_verbose = kwargs.get('is_verbose',False)
 
     if city == None and country == None:
         raise Exception('set the \"city\" or \"country\" param at least')
