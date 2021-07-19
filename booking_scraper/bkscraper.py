@@ -135,7 +135,7 @@ def parsing_data(parameters_dict):
     datein = parameters_dict['datein']
     dateout = parameters_dict['dateout']
     city = parameters_dict['city']
-    offset = parameters_dict['offset']
+    is_detail = parameters_dict['is_detail']
 
     result = []
     data_url = create_url(people, country, city, datein, dateout, offset)
