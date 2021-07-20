@@ -23,6 +23,8 @@ ROW_PER_OFFSET = 25
 def get_max_offset(soup):
     all_offset = []
     if soup.find_all('li', {'class': 'sr_pagination_item'}) is not None:
+        print(soup.find_all('li', {'class': 'sr_pagination_item'}))
+        print(soup.find_all('li', {'class': 'sr_pagination_item'})[-1].get_text())
         all_offset = soup.find_all('li', {'class': 'sr_pagination_item'})[-1].get_text().splitlines()[-1]
 
     return all_offset
