@@ -22,9 +22,9 @@ ROW_PER_OFFSET = 25
 
 def get_max_offset(soup):
     all_offset = []
-    if soup.find_all('li', {'class': 'sr_pagination_item'}) is not None:
-        print(soup.find_all('li', {'class': 'sr_pagination_item'}))
-        print(soup.find_all('li', {'class': 'sr_pagination_item'})[-1].get_text())
+    if soup.find_all('li', {'class': 'sr_pagination_item'}):
+        #print(soup.find_all('li', {'class': 'sr_pagination_item'}))
+        #print(soup.find_all('li', {'class': 'sr_pagination_item'})[-1].get_text())
         all_offset = soup.find_all('li', {'class': 'sr_pagination_item'})[-1].get_text().splitlines()[-1]
 
     return all_offset
@@ -57,7 +57,7 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
     session = requests.Session()
     
 
-    starting_url = create_url(people, country, city, datein, dateout, offset)
+    starting_url = create_url(people, country, city, datein, dateout, 0)
     # print(starting_url)
     if is_verbose:
         print("[~] Url created:" + "\n" + "\t" + starting_url)
