@@ -21,7 +21,7 @@ ROW_PER_OFFSET = 25
 
 
 def get_max_offset(soup):
-    all_offset = []
+    all_offset = 0
     if soup.find_all('li', {'class': 'sr_pagination_item'}):
         #print(soup.find_all('li', {'class': 'sr_pagination_item'}))
         #print(soup.find_all('li', {'class': 'sr_pagination_item'})[-1].get_text())
@@ -64,15 +64,10 @@ def process_data(people, country, city, datein, dateout, is_detail, limit):
 
     response = session.get(starting_url, headers=REQUEST_HEADER)
     soup = BeautifulSoup(response.text, "lxml")
-
-    if limit < 0:
-        max_offset = int(get_max_offset(soup))
-    elif limit > 0:
-        max_off = int(get_max_offset(soup))
-        if limit > max_off:
-            max_offset = max_off
-        else:
-            max_offset = limit
+    max_offset = int(get_max_offset(soup))
+    
+    if limit >=0 and limit < max_offset:
+       max_offset = limit
 
     if is_verbose:
         print("[~] Page to fetch: " + str(max_offset))
