@@ -66,7 +66,7 @@ If either city or country param is not setted the script will rise an Exception.
 import pandas as pd
 from booking_scraper import bkscraper
 
-#It fetches only the first page for New York city with details
+#It fetches first 40 pages for Switzerland
 pd.DataFrame(bkscraper.get_result(country="Switzerland", limit=40, detail=False))
 ```
 ## Public
