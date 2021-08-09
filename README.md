@@ -63,16 +63,11 @@ If either city or country param is not setted the script will rise an Exception.
 
 ### Code Example
 ```python
-import json
+import pandas as pd
 from booking_scraper import bkscraper
 
 #It fetches only the first page for New York city with details
-result = bkscraper.get_result(city="New York", limit=1, detail=True)
-
-
-with open("output.json", 'w', encoding='utf-8') as f:
-    json.dump(result, f, ensure_ascii=False, indent=4)
-    f.close()
+pd.DataFrame(bkscraper.get_result(country="Switzerland", limit=40, detail=False))
 ```
 ## Public
 
